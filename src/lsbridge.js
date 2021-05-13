@@ -40,15 +40,15 @@
       for(var namespace in listeners) {
         var data = ls.getItem(namespace);
         if(data && buffer[namespace] && buffer[namespace].indexOf(data) === -1) {
-          buffer[namespace].push(data);
+          buffer[namespace].push(data);   // 缓存最新的值
           try {
             var parsed = JSON.parse(data);
             if(parsed) data = parsed;
           } catch(e) {}
           for(var i=0; i<listeners[namespace].length; i++) {
-            listeners[namespace][i](data);
+            listeners[namespace][i](data);  // 执行所有该 namespaces 监听方法
           }
-          if(!ls.getItem(namespace + '-removeit')) {
+          if(!ls.getItem(namespace + '-removeit')) {  // 清空data
             ls.setItem(namespace + '-removeit', '1');
             (function(n) {
               setTimeout(function() {
